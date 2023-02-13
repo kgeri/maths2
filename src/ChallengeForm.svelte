@@ -1,5 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import ChallengeInput from "./ChallengeInput.svelte";
+    import ChallengeValue from "./ChallengeValue.svelte";
     import { settings, resultLog } from "./stores";
 
     const Ops = "+-·:";
@@ -47,7 +49,6 @@
                 a = b * nextInt(1, max / b);
                 break;
         }
-        responseInput.focus();
     }
 
     function calculate(): number {
@@ -69,22 +70,22 @@
 </script>
 
 <form on:submit|preventDefault={evaluate}>
-    <div>
-        <span>{a} {op} {b} = </span><input
-            bind:this={responseInput}
-            bind:value={response}
-            type="number"
-            min="0"
-            max="50"
-            maxlength="2"
-        />
-        <input type="submit" value="Mehet!" />
-    </div>
+    <ChallengeValue value={a} />{op}<ChallengeValue value={b} />=<ChallengeInput bind:response />
+    <input type="submit" value="Mehet!" />
 </form>
 
 <style>
     form {
         font-size: 3em;
         text-align: center;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        align-content: center;
+        align-items: center;
+    }
+
+    input[type="submit"] {
+        grid-area: 2 / 1 / 3 / 6;
     }
 </style>

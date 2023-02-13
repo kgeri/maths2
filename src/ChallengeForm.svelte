@@ -6,19 +6,21 @@
 
     const Ops = "+-·:";
 
-    let responseInput: HTMLInputElement;
-
     let a: number;
     let b: number;
+    let c: number;
     let op: string;
+    let questionIndex: number;
     let response: number;
 
     export function evaluate() {
-        if (calculate() === response) {
-            $resultLog = [...$resultLog, `✅ ${a} ${op} ${b} = ${response}\n`];
-        } else {
-            $resultLog = [...$resultLog, `❌ ${a} ${op} ${b} = ${response || "<nem válaszolt>"}\n`];
-        }
+        const expected = [a, b, c];
+        const actual: any[] = [a, b, c];
+        actual[questionIndex] = response || "<nem válaszolt>";
+
+        const success = expected.every((v, i) => actual[i] === v);
+
+        $resultLog = [`${success ? "✅" : "❌"}  ${actual[0]} ${op} ${actual[1]} = ${actual[2]}\n`, ...$resultLog];
         response = null;
         next();
     }
@@ -35,33 +37,25 @@
             case "+":
                 a = nextInt(1, max);
                 b = nextInt(1, max - a);
+                c = a + b;
                 break;
             case "-":
                 a = nextInt(1, max);
                 b = nextInt(1, a);
+                c = a - b;
                 break;
             case "·":
                 a = nextInt(1, 10);
                 b = nextInt(0, max / a);
+                c = a * b;
                 break;
             case ":":
                 b = nextInt(1, max / 3);
                 a = b * nextInt(1, max / b);
+                c = a / b;
                 break;
         }
-    }
-
-    function calculate(): number {
-        switch (op) {
-            case "+":
-                return a + b;
-            case "-":
-                return a - b;
-            case "·":
-                return a * b;
-            case ":":
-                return a / b;
-        }
+        questionIndex = nextInt(0, 3);
     }
 
     function nextInt(min: number, max: number) {
@@ -70,7 +64,13 @@
 </script>
 
 <form on:submit|preventDefault={evaluate}>
-    <ChallengeValue value={a} />{op}<ChallengeValue value={b} />=<ChallengeInput bind:response />
+    {#if questionIndex == 0}
+        <ChallengeInput bind:response />{op}<ChallengeValue value={b} />=<ChallengeValue value={c} />
+    {:else if questionIndex == 1}
+        <ChallengeValue value={a} />{op}<ChallengeInput bind:response />=<ChallengeValue value={c} />
+    {:else}
+        <ChallengeValue value={a} />{op}<ChallengeValue value={b} />=<ChallengeInput bind:response />
+    {/if}
     <input type="submit" value="Mehet!" />
 </form>
 

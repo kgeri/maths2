@@ -8,6 +8,6 @@
 
 ```
 npm run build
-./node_modules/.bin/wranger login
+./node_modules/.bin/wrangler login
 CLOUDFLARE_ACCOUNT_ID=... npx wrangler pages publish dist/
 ```

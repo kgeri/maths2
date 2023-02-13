@@ -20,7 +20,7 @@
     function evaluate() {
         const expected = [a, b, c];
         const actual: any[] = [a, b, c];
-        actual[questionIndex] = response || i18n.skipped;
+        actual[questionIndex] = response == null ? i18n.skipped : response;
 
         const success = expected.every((v, i) => actual[i] === v);
 
@@ -49,11 +49,11 @@
                 b = nextInt(0, max / a);
                 c = a * b;
                 break;
-            case "d":
+            case "d": // div
                 b = nextInt(1, max / 3);
                 op = ":";
-                a = b * nextInt(1, max / b);
-                c = a / b;
+                c = nextInt(1, max / b);
+                a = b * c;
                 break;
         }
         questionIndex = nextInt(0, 3);

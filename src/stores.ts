@@ -6,8 +6,10 @@ export const resultLog: Writable<string[]> = writable([]);
 
 export interface Settings {
     maxValue: number;
+    operations: string;
 }
 
 export const settings = <Settings>{
-    maxValue: Number(urlParams.get('m')) || 60
+    maxValue: Number(urlParams.get('max')) || 60,
+    operations: urlParams.get('ops') || 'asmd',
 };

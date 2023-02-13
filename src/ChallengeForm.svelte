@@ -2,9 +2,11 @@
     import { onMount } from "svelte";
     import ChallengeInput from "./ChallengeInput.svelte";
     import ChallengeValue from "./ChallengeValue.svelte";
+    import i18n from "./i18n";
     import { settings, resultLog } from "./stores";
 
-    const Ops = "+-·:";
+    const max = settings.maxValue;
+    const ops = settings.operations;
 
     let a: number;
     let b: number;
@@ -13,10 +15,12 @@
     let questionIndex: number;
     let response: number;
 
-    export function evaluate() {
+    onMount(next);
+
+    function evaluate() {
         const expected = [a, b, c];
         const actual: any[] = [a, b, c];
-        actual[questionIndex] = response || "<nem válaszolt>";
+        actual[questionIndex] = response || i18n.skipped;
 
         const success = expected.every((v, i) => actual[i] === v);
 
@@ -25,32 +29,29 @@
         next();
     }
 
-    onMount(() => {
-        console.log(`Using settings: ${JSON.stringify(settings)}`);
-        next();
-    });
-
     function next() {
-        const max = settings.maxValue;
-        op = Ops[nextInt(0, Ops.length)];
-        switch (op) {
-            case "+":
+        switch (ops[nextInt(0, ops.length)]) {
+            case "a": // add
                 a = nextInt(1, max);
+                op = "+";
                 b = nextInt(1, max - a);
                 c = a + b;
                 break;
-            case "-":
+            case "s": // sub
                 a = nextInt(1, max);
+                op = "-";
                 b = nextInt(1, a);
                 c = a - b;
                 break;
-            case "·":
+            case "m": // mul
                 a = nextInt(1, 10);
+                op = "·";
                 b = nextInt(0, max / a);
                 c = a * b;
                 break;
-            case ":":
+            case "d":
                 b = nextInt(1, max / 3);
+                op = ":";
                 a = b * nextInt(1, max / b);
                 c = a / b;
                 break;
@@ -71,7 +72,7 @@
     {:else}
         <ChallengeValue value={a} />{op}<ChallengeValue value={b} />=<ChallengeInput bind:response />
     {/if}
-    <input type="submit" value="Mehet!" />
+    <input type="submit" value={i18n.submit} />
 </form>
 
 <style>

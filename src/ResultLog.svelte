@@ -3,5 +3,5 @@
 </script>
 
 <pre>
-{#each $resultLog as l}{l}{/each}
+{#each $resultLog as rl}{rl.correct ? "✅" : "❌"} {rl.message}<br />{/each}
 </pre>

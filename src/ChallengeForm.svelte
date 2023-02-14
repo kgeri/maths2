@@ -3,7 +3,7 @@
     import ChallengeInput from "./ChallengeInput.svelte";
     import ChallengeValue from "./ChallengeValue.svelte";
     import i18n from "./i18n";
-    import { settings, resultLog } from "./stores";
+    import { settings, resultLog, type Result } from "./stores";
 
     const max = settings.maxValue;
     const ops = settings.operations;
@@ -22,9 +22,12 @@
         const actual: any[] = [a, b, c];
         actual[questionIndex] = response == null ? i18n.skipped : response;
 
-        const success = expected.every((v, i) => actual[i] === v);
+        const result = <Result>{
+            correct: expected.every((v, i) => actual[i] === v),
+            message: `${actual[0]} ${op} ${actual[1]} = ${actual[2]}`,
+        };
 
-        $resultLog = [`${success ? "✅" : "❌"}  ${actual[0]} ${op} ${actual[1]} = ${actual[2]}\n`, ...$resultLog];
+        $resultLog = [result, ...$resultLog];
         response = null;
         next();
     }

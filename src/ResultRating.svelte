@@ -6,17 +6,17 @@
 </script>
 
 {#if $resultLog.length < 10}
-    <div>Csinálj meg legalább tízet az értékeléshez!</div>
+    <div>{i18n.lessThanTenResults}</div>
 {:else if pcnt >= 90}
-    <div class="message r5">{pcnt}% - Ötös 🥰</div>
+    <div class="message r5">{pcnt}% - {i18n.rating5}</div>
 {:else if pcnt >= 80}
-    <div class="message r4">{pcnt}% - Négyes 😊</div>
+    <div class="message r4">{pcnt}% - {i18n.rating4}</div>
 {:else if pcnt >= 60}
-    <div class="message r3">{pcnt}% - Hármas 😟</div>
+    <div class="message r3">{pcnt}% - {i18n.rating3}</div>
 {:else if pcnt >= 41}
-    <div class="message r2">{pcnt}% - Kettes 😧</div>
+    <div class="message r2">{pcnt}% - {i18n.rating2}</div>
 {:else}
-    <div class="message r1">{pcnt}% - Egyes 😢</div>
+    <div class="message r1">{pcnt}% - {i18n.rating1}</div>
 {/if}
 
 <style>

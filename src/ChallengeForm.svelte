@@ -49,7 +49,7 @@
             case "m": // mul
                 a = nextInt(1, 10);
                 op = "·";
-                b = nextInt(0, max / a);
+                b = nextInt(1, max / a);
                 c = a * b;
                 break;
             case "d": // div

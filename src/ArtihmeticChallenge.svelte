@@ -20,9 +20,11 @@
     onMount(next);
 
     export function evaluate() {
+        if (!response) return;
+
         const expected = [a, b, c];
         const actual: any[] = [a, b, c];
-        actual[questionIndex] = response == null ? i18n.skipped : response;
+        actual[questionIndex] = response;
 
         const result = <Result>{
             correct: expected.every((v, i) => actual[i] === v),

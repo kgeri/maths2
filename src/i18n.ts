@@ -6,7 +6,6 @@ export default {
     rating4: "Négyes 😊",
     rating5: "Ötös 🥰",
     submit: "Mehet!",
-    skipped: "<nem válaszolt>",
     operations: {
         "a": "összeadás",
         "s": "kivonás",

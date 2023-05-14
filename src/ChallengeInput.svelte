@@ -10,7 +10,7 @@
     });
 </script>
 
-<input bind:this={responseInput} bind:value={response} type="number" min="0" max={settings.maxValue} />
+<input bind:this={responseInput} bind:value={response} type="number" min="0" max={settings.maxValue} required />
 
 <style>
     input {

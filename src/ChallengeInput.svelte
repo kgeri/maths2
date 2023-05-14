@@ -3,11 +3,16 @@
     import { settings } from "./stores";
 
     export let response: number;
+    export let autofocus: boolean = false;
     let responseInput: HTMLInputElement;
 
     onMount(() => {
-        responseInput.focus();
+        if (autofocus) focus();
     });
+
+    export function focus() {
+        responseInput.focus();
+    }
 </script>
 
 <input bind:this={responseInput} bind:value={response} type="number" min="0" max={settings.maxValue} required />

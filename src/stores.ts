@@ -8,12 +8,14 @@ export interface Result {
 export const resultLog: Writable<Result[]> = writable([]);
 
 export interface Settings {
+    type: string;
     maxValue: number;
     operations: string;
 }
 
 const urlParams = new URLSearchParams(window.location.search);
 export const settings = <Settings>{
-    maxValue: Number(urlParams.get('max')) || 60,
-    operations: urlParams.get('ops') || 'asmd',
+    type: urlParams.get('type') || 'arithmetic', // [arithmetic|divrem]
+    maxValue: Number(urlParams.get('max')) || 100,
+    operations: urlParams.get('ops') || 'asmd', // [a|s|m|d] for add, sub, mul, div
 };

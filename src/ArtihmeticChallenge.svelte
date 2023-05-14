@@ -4,7 +4,6 @@
     import { onMount } from "svelte";
     import ChallengeInput from "./ChallengeInput.svelte";
     import ChallengeValue from "./ChallengeValue.svelte";
-    import i18n from "./i18n";
     import { settings, resultLog, type Result } from "./stores";
 
     const max = settings.maxValue;
@@ -20,8 +19,6 @@
     onMount(next);
 
     export function evaluate() {
-        if (!response) return;
-
         const expected = [a, b, c];
         const actual: any[] = [a, b, c];
         actual[questionIndex] = response;
@@ -71,10 +68,22 @@
     }
 </script>
 
-{#if questionIndex == 0}
-    <ChallengeInput bind:response />{op}<ChallengeValue value={b} />=<ChallengeValue value={c} />
-{:else if questionIndex == 1}
-    <ChallengeValue value={a} />{op}<ChallengeInput bind:response />=<ChallengeValue value={c} />
-{:else}
-    <ChallengeValue value={a} />{op}<ChallengeValue value={b} />=<ChallengeInput bind:response />
-{/if}
+<div class="question">
+    {#if questionIndex == 0}
+        <ChallengeInput autofocus bind:response />{op}<ChallengeValue value={b} />=<ChallengeValue value={c} />
+    {:else if questionIndex == 1}
+        <ChallengeValue value={a} />{op}<ChallengeInput autofocus bind:response />=<ChallengeValue value={c} />
+    {:else}
+        <ChallengeValue value={a} />{op}<ChallengeValue value={b} />=<ChallengeInput autofocus bind:response />
+    {/if}
+</div>
+
+<style>
+    .question {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: 1fr;
+        align-content: center;
+        align-items: center;
+    }
+</style>
